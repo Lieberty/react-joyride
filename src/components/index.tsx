@@ -343,6 +343,11 @@ class Joyride extends React.Component<Props, State> {
     if (isRunning && steps[index]) {
       const step = getMergedStep(this.props, steps[index]);
 
+      const subStep = steps[index].subStep ? getMergedStep(this.props, {
+        ...steps[index],
+        ...steps[index].subStep
+      }) : null;
+
       content.step = (
         <Step
           {...this.state}
@@ -356,6 +361,18 @@ class Joyride extends React.Component<Props, State> {
           store={this.store}
         />
       );
+
+      content.subStep = subStep ? <Step
+        {...this.state}
+        callback={this.callback}
+        continuous={continuous}
+        debug={debug}
+        helpers={this.helpers}
+        nonce={nonce}
+        shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
+        step={subStep}
+        store={this.store}
+      /> : null
 
       content.overlay = (
         <Portal id="react-joyride-portal">
@@ -373,6 +390,7 @@ class Joyride extends React.Component<Props, State> {
     return (
       <div className="react-joyride">
         {content.step}
+        {content.subStep}
         {content.overlay}
       </div>
     );

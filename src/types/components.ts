@@ -146,6 +146,7 @@ export type OverlayProps = Simplify<
     debug: boolean;
     lifecycle: Lifecycle;
     onClickOverlay: () => void;
+    subStep?: SubStep;
   }
 >;
 
@@ -216,6 +217,21 @@ export type State = {
   status: Status;
 };
 
+export type SubStep = {
+  content: ReactNode;
+  data?: any;
+  disableBeacon?: boolean;
+  event?: 'click' | 'hover';
+  floaterProps?: FloaterProps;
+  hideFooter?: boolean;
+  isFixed?: boolean;
+  offset?: number;
+  placement?: Placement | 'auto' | 'center';
+  placementBeacon?: Placement;
+  target: string | HTMLElement;
+  title?: ReactNode;
+};
+
 export type Step = Simplify<
   BaseProps & {
     /**
@@ -272,6 +288,8 @@ export type Step = Simplify<
      * The tooltip's title.
      */
     title?: ReactNode;
+
+    subStep?: SubStep;
   }
 >;
 

@@ -137,7 +137,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     } as React.CSSProperties;
   }
 
-  get spotlightStyles(): SpotlightStyles {
+  spotlightStyles = (type?: String): SpotlightStyles => {
     const { showSpotlight } = this.state;
     const {
       disableScrollParentFix = false,
@@ -145,8 +145,9 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
       spotlightPadding = 0,
       styles,
       target,
+      subStep,
     } = this.props;
-    const element = getElement(target);
+    const element = getElement(type === 'sub' && subStep ? subStep.target : target);
     const elementRect = getClientRect(element);
     const isFixedTarget = hasPosition(element);
     const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
@@ -166,7 +167,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
 
   handleMouseMove = (event: MouseEvent) => {
     const { mouseOverSpotlight } = this.state;
-    const { height, left, position, top, width } = this.spotlightStyles;
+    const { height, left, position, top, width } = this.spotlightStyles();
 
     const offsetY = position === 'fixed' ? event.clientY : event.pageY;
     const offsetX = position === 'fixed' ? event.clientX : event.pageX;
@@ -222,7 +223,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
 
   render() {
     const { showSpotlight } = this.state;
-    const { onClickOverlay, placement } = this.props;
+    const { onClickOverlay, placement, subStep } = this.props;
     const { hideSpotlight, overlayStyles, spotlightStyles } = this;
 
     if (hideSpotlight()) {
@@ -230,7 +231,11 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     }
 
     let spotlight = placement !== 'center' && showSpotlight && (
-      <Spotlight styles={spotlightStyles} />
+      <Spotlight styles={spotlightStyles()} />
+    );
+
+    let subSpotlight = placement !== 'center' && showSpotlight && subStep && (
+      <Spotlight styles={spotlightStyles('sub')} />
     );
 
     // Hack for Safari bug with mix-blend-mode with z-index
@@ -238,6 +243,9 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
       const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
 
       spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;
+      if (subStep) {
+        subSpotlight = <div style={{ ...safariOverlay }}>{subSpotlight}</div>;
+      }
       delete overlayStyles.backgroundColor;
     }
 
@@ -250,6 +258,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
         style={overlayStyles}
       >
         {spotlight}
+        {subSpotlight}
       </div>
     );
   }
