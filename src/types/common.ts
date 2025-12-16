@@ -91,6 +91,7 @@ export interface Styles {
   tooltipFooter: CSSProperties;
   tooltipFooterSpacer: CSSProperties;
   tooltipTitle: CSSProperties;
+  tooltipStep: CSSProperties;
 }
 
 export interface StylesWithFloaterStyles extends Styles {

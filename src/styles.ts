@@ -11,7 +11,7 @@ const defaultOptions = {
   primaryColor: '#f04',
   spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   textColor: '#333',
-  width: 380,
+  width: '100%',
   zIndex: 100,
 } satisfies StylesOptions;
 
@@ -21,7 +21,8 @@ const buttonBase = {
   borderRadius: 0,
   color: '#555',
   cursor: 'pointer',
-  fontSize: 16,
+  fontSize: 11,
+  fontWeight: 700,
   lineHeight: 1,
   padding: 8,
   WebkitAppearance: 'none',
@@ -100,12 +101,12 @@ export default function getStyles(props: Props, step: StepMerged) {
     },
     tooltip: {
       backgroundColor: options.backgroundColor,
-      borderRadius: 5,
+      borderRadius: 8,
       boxSizing: 'border-box',
       color: options.textColor,
       fontSize: 16,
-      maxWidth: '100%',
-      padding: 15,
+      maxWidth: 380,
+      padding: 12,
       position: 'relative',
       width,
     },
@@ -114,11 +115,18 @@ export default function getStyles(props: Props, step: StepMerged) {
       textAlign: 'center',
     },
     tooltipTitle: {
-      fontSize: 18,
+      fontSize: 15,
       margin: 0,
     },
     tooltipContent: {
-      padding: '20px 10px',
+      // padding: '20px 10px',
+      fontSize: 13,
+      fontWeight: 500,
+    },
+    tooltipStep: {
+      color: '#757575',
+      fontSize: 13,
+      fontWeight: 500,
     },
     tooltipFooter: {
       alignItems: 'center',
@@ -132,7 +140,7 @@ export default function getStyles(props: Props, step: StepMerged) {
     buttonNext: {
       ...buttonBase,
       backgroundColor: options.primaryColor,
-      borderRadius: 4,
+      borderRadius: 8,
       color: '#fff',
     },
     buttonBack: {
